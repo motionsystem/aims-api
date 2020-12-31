@@ -1,5 +1,5 @@
 {
-    "name": "allinmotion/aimsAPI",
+    "name": "allinmotion/aims-api",
     "type": "library",
     "description": "aims basic api ",
     "keywords": ["aims","basic api"],
