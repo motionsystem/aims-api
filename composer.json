@@ -13,5 +13,10 @@
             "homepage": "https://motionsystem.nl",
             "role": "Developer"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Aims\\": "aims/"
+        }
+    }
 }
