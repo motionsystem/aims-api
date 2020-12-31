@@ -5,6 +5,7 @@
     "keywords": ["aims","basic api"],
     "homepage": "https://motionsystem.nl",
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Pascal Huisman",
