@@ -1,0 +1,19 @@
+{
+    "name": "allinmotion/aims",
+    "type": "library",
+    "description": "aims basic api ",
+    "keywords": ["aims","basic api"],
+    "homepage": "https://motionsystem.nl",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pascal Huisman",
+            "email": "pascal@allinmotion.nl",
+            "homepage": "https://motionsystem.nl",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "twig/twig": "3.0"
+    }
+}
