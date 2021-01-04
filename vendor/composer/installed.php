@@ -1,20 +1,20 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '0.0.1',
-    'version' => '0.0.1.0',
+    'pretty_version' => '0.0.2',
+    'version' => '0.0.2.0',
     'aliases' => 
     array (
     ),
     'reference' => NULL,
-    'name' => 'allinmotion/api',
+    'name' => 'allinmotion/aims-api',
   ),
   'versions' => 
   array (
-    'allinmotion/api' => 
+    'allinmotion/aims-api' => 
     array (
-      'pretty_version' => '0.0.1',
-      'version' => '0.0.1.0',
+      'pretty_version' => '0.0.2',
+      'version' => '0.0.2.0',
       'aliases' => 
       array (
       ),
