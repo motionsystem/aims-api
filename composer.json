@@ -5,7 +5,7 @@
     "keywords": ["aims","basic api"],
     "homepage": "https://motionsystem.nl",
     "license": "MIT",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "authors": [
         {
             "name": "Pascal Huisman",
@@ -16,7 +16,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Aims\\": "aims/"
+            "Aims\\": "aims/",
+            "SmartUrl\\": "smartUrl/"
         }
     }
 }

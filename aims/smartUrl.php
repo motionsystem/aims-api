@@ -1,5 +1,5 @@
 <?php
-namespace Aims;
+namespace smartUrl;
 
 
 /**
