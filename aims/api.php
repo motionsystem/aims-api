@@ -12,11 +12,19 @@ class api
     private $debug = [];
     private $install = [];
 
+    private $parameter;
+    private $adminMode = FALSE;
+    private $languages ;
+    private $defilterArray = ['admin'];
+    private $languagesArray = ['nl','en'];
+
+
     public function __construct($config)
     {
         $this->CONFIG = $config;
         $this->debug = ($config['debug'] ? true : false);
         $this->install = ($config['debug'] && $config['install'] ? true : false);
+        $this->set_arrayParameter();
     }
 
     public function forcecDebug($debug = false, $install = false){
@@ -104,23 +112,7 @@ class api
     }
 
 
-}
-
-
-
-
-class smartUrl
-{
-
-    private $parameter;
-    private $adminMode = FALSE;
-    private $languages ;
-    private $defilterArray = ['admin'];
-    private $languagesArray = ['nl','en'];
-
-    public function  __construct(){
-        $this->set_arrayParameter();
-    }
+/*********************************/
 
     public function friendlyUrl($url){
         if($url[0] === '/'){
