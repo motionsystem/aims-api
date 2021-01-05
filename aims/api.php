@@ -21,6 +21,7 @@ class api
 
     public function __construct($config)
     {
+
         $this->CONFIG = $config;
         $this->debug = ($config['debug'] ? true : false);
         $this->install = ($config['debug'] && $config['install'] ? true : false);
