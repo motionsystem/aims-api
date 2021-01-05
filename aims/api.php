@@ -134,7 +134,6 @@ class api
             if(empty($requestURL[$i])){
                 continue;
             }
-            print_r($requestURL[$i]);
             if( in_array($requestURL[$i] ,$this->defilterArray)  ){
 
                 if( in_array($requestURL[$i], $this->languagesArray)  ){
