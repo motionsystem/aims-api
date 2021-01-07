@@ -11,6 +11,7 @@ class api
     private $CONFIG = [];
     private $debug = [];
     private $install = [];
+    private $msyUser = null;
 
     private $parameter;
     private $adminMode = FALSE;
@@ -45,6 +46,9 @@ class api
         }
 
         $data = $this->curlPostUrl($url);
+
+        $this->msyUser =  (isset($data['APPDATA']['msyUser']) ? $data['APPDATA']['msyUser'] : null);
+
         $returnData = $data;
         if(is_array($arrReturn)) {
             $returnData = [];
@@ -160,6 +164,10 @@ class api
 
     public function getAdminMode(){
         return $this->adminMode;
+    }
+
+    public function msyUser(){
+        return $this->msyUser;
     }
 
 };
