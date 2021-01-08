@@ -93,7 +93,7 @@ class api
     {
 
         $url = $this->CONFIG['apiHost'] . '/' . $this->CONFIG['apiVersion'] . '/' . $page;
-        $token = (!isset($_SESSION['Oauth-Token']) ? $_SESSION['Oauth-Token'] : null );
+        $token = (isset($_SESSION['Oauth-Token']) ? $_SESSION['Oauth-Token'] : null );
 
         $this->setDebugInfo();
         $curl = curl_init($url );
