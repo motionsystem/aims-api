@@ -347,7 +347,7 @@ if($image['action'] === 'base64') {
 
 if($image['action'] === 'crop') {
     $body = [];
-    $upload->setOverwrite(false);
+
     $filename = $upload->cropImageFromFilename($image);
 
     $strSub = substr($filename,0,strlen($_SERVER['DOCUMENT_ROOT']));

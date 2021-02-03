@@ -14,7 +14,7 @@ class api
     private $msyUser = null;
     private $postData = [];
 
-    private $postBasketCode = true;
+    private $postBasketCode = false;
 
     private $ip;
 
@@ -137,7 +137,7 @@ class api
                 $returnData[$extractKey] = ($extractData ? $extractData : null);
             }
         }
-
+        $this->setPostBasketCode(false);
         $this->postData = $returnData;
         return $returnData;
     }
