@@ -134,67 +134,67 @@ $inputFileBlockHtml .='<button id="saveInputs" class="w100 center">opslaan</butt
         <span style="position: absolute;right:30px" id="aimsImgLibraryRefresh">R</span>
         <span style="position: absolute;right:10px" id="aimsImgLibraryClose">X</span>
     </div>
-<div class="container">
+    <div class="container">
 
-    <div id="originalImgContainer" class="center">
-        <button id="selectNewImage" class="w100 center">Selecteer een nieuwe foto</button><br><br>
-        <div class="w50">
-            <img id="originalSrc" src="" class="center" />
-        </div>
-        <div class="w50">
-            <div id="changeFileNameBlock">
-                <?php echo $inputFileBlockHtml ?>
+        <div id="originalImgContainer" class="center">
+            <button id="selectNewImage" class="w100 center">Selecteer een nieuwe foto</button><br><br>
+            <div class="w50">
+                <img id="originalSrc" src="" class="center" />
             </div>
-            <button id="removeImageBlock" class="w100 center">verwijderen foto spot</button>
-        </div>
-
-
-    </div>
-
-    <div id="cropImage" class="w100">
-        <div class="center">
-            <img id="cropOriginalImg" src="" />
-        </div>
-        <div id="formCrop" style="display: none">
-            w:<input id="input-croppr-width" type="hidden"><br>
-            h:<input id="input-croppr-height" type="hidden"><br>
-            x:<input id="input-croppr-x" type="hidden"><br>
-            Y:<input id="input-croppr-y" type="hidden"><br>
-            <button id="clickCrop">crop</button>
-        </div>
-    </div>
-    <div id="selectImage">
-        <div id="imgLibraryFolder" class="w25 folder">
-            <div id="imgLibraryFolderContainer">
-                <?php echo $library->getHtmlFolders();?>
-            </div>
-            <div class="aimsImgLibraryFolder item newfolder">nieuwe folder</div>
-        </div>
-        <div class="w25" id="onImageSelected" class="center">
-            <img id="selectedImageImg" src="">
-            <div id="selectedImageTitle">NAAM Bestand</div>
-            <button id="useImage" class="w100">Gebruiken</button>
-            <button id="renameImageName" class="w100">Naam wijzigen</button>
-            <button id="removeImageName" class="w100">Verwijderen</button>
-        </div>
-        <div class="w75 library">
-            <div id="formUpload" class="w100 upload">
-                <label class="custom-file-upload">
-                    <input id="imageFile" name="imageFile" type="file" class="imageFile"  accept="image/*"   />
-                    Upload nieuwe foto
-                </label>
-            </div>
-            <div id="uploadResult" class="w100" style="display: none">
-                <input type="button" value="Deze foto nu uploaden" class="w100" id="resizeUploadImage"/>
-                <div class="w100 center" >
-                    <img src="" id="preview" >
+            <div class="w50">
+                <div id="changeFileNameBlock">
+                    <?php echo $inputFileBlockHtml ?>
                 </div>
+                <button id="removeImageBlock" class="w100 center">verwijderen foto spot</button>
             </div>
 
-            <?php echo $library->getHtmlContent();?>
+
+        </div>
+
+        <div id="cropImage" class="w100">
+            <div class="center">
+                <img id="cropOriginalImg" src="" />
+            </div>
+            <div id="formCrop" style="display: none">
+                w:<input id="input-croppr-width" type="hidden"><br>
+                h:<input id="input-croppr-height" type="hidden"><br>
+                x:<input id="input-croppr-x" type="hidden"><br>
+                Y:<input id="input-croppr-y" type="hidden"><br>
+                <button id="clickCrop">crop</button>
+            </div>
+        </div>
+        <div id="selectImage">
+            <div id="imgLibraryFolder" class="w25 folder">
+                <div id="imgLibraryFolderContainer">
+                    <?php echo $library->getHtmlFolders();?>
+                </div>
+                <div class="aimsImgLibraryFolder item newfolder">nieuwe folder</div>
+            </div>
+            <div class="w25" id="onImageSelected" class="center">
+                <img id="selectedImageImg" src="">
+                <div id="selectedImageTitle">NAAM Bestand</div>
+                <button id="useImage" class="w100">Gebruiken</button>
+                <button id="renameImageName" class="w100">Naam wijzigen</button>
+                <button id="removeImageName" class="w100">Verwijderen</button>
+            </div>
+            <div class="w75 library">
+                <div id="formUpload" class="w100 upload">
+                    <label class="custom-file-upload">
+                        <input id="imageFile" name="imageFile" type="file" class="imageFile"  accept="image/*"   />
+                        Upload nieuwe foto
+                    </label>
+                </div>
+                <div id="uploadResult" class="w100" style="display: none">
+                    <input type="button" value="Deze foto nu uploaden" class="w100" id="resizeUploadImage"/>
+                    <div class="w100 center" >
+                        <img src="" id="preview" >
+                    </div>
+                </div>
+
+                <?php echo $library->getHtmlContent();?>
+            </div>
         </div>
     </div>
-</div>
 
 </div>
 

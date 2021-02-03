@@ -14,6 +14,8 @@ class api
     private $msyUser = null;
     private $postData = [];
 
+    private $postBasketCode = true;
+
     private $ip;
 
     private $parameter;
@@ -60,6 +62,7 @@ class api
 
     function checkAjaxPost(){
         $requestData = json_decode(file_get_contents('php://input'), true);
+
         if(!$requestData && $_POST){
             $requestData = $_POST;
         }
@@ -78,6 +81,10 @@ class api
         $this->install = $install;
     }
 
+    public function setPostBasketCode($bool){
+        $this->postBasketCode = $bool;
+    }
+
     public function post($url,$arrBody, $arrReturn = null)
     {
 
@@ -86,7 +93,7 @@ class api
             $this->reqeustFields = $arrBody;
         }
 
-        if(!empty($_SESSION['basketCode'])){
+        if(!empty($_SESSION['basketCode']) && $this->postBasketCode){
             $this->reqeustFields['basketCode'] = $_SESSION['basketCode'];
         }
 

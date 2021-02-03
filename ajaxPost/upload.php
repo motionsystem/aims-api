@@ -1,25 +1,25 @@
 <?php
 
 class aimsUpload {
-  // Properties
-  private $filename;
-  private $uploadDir;
-  private $filesizes = ['small'=>200, 'normal'=>800];
-  private $overwrite;
-  private $success = [];
+    // Properties
+    private $filename;
+    private $uploadDir;
+    private $filesizes = ['small'=>200, 'normal'=>800];
+    private $overwrite;
+    private $success = [];
 
     private $subfolder = 'home';
     private $watermarkspot = null;
 
-  function __construct($uploadDir, $filesizesMaxWidth = null) {
-	$this->uploadDir = $uploadDir;
-	$this->filesizes = $filesizesMaxWidth ;
+    function __construct($uploadDir, $filesizesMaxWidth = null) {
+        $this->uploadDir = $uploadDir;
+        $this->filesizes = $filesizesMaxWidth ;
 
-  }
+    }
 
-  function setOverwrite($overwrite){
-      $this->overwrite = $overwrite;
-  }
+    function setOverwrite($overwrite){
+        $this->overwrite = $overwrite;
+    }
 
     function extractFilename($filename, $findLastChar){
         //split filename on the dot.
@@ -30,153 +30,153 @@ class aimsUpload {
         ];
     }
 
-  // Methods
-  function saveBase64Content($image) {
+    // Methods
+    function saveBase64Content($image) {
 
-    $this->overwrite = (isset($image['overwrite']) ? $image['overwrite'] : false) ;
-    $this->subfolder = (isset($image['folder']) ? $image['folder'] : 'home') ;
-    $uploadDir =  $this->uploadDir;
-    $img = $image['img'];
+        $this->overwrite = (isset($image['overwrite']) ? $image['overwrite'] : false) ;
+        $this->subfolder = (isset($image['folder']) ? $image['folder'] : 'home') ;
+        $uploadDir =  $this->uploadDir;
+        $img = $image['img'];
 
-    $extratFilename = $this->extractFilename($image['filename'], '.');
-    $filename = $extratFilename[0];
-    $ex =  $extratFilename[1];
+        $extratFilename = $this->extractFilename($image['filename'], '.');
+        $filename = $extratFilename[0];
+        $ex =  $extratFilename[1];
 
-      if($filename === 'aims-watermark'){
-          //unset other file sizes for resizing
-          $this->subfolder = null;
-          $this->filesizes = null;
-          $this->overwrite = true;
-          $uploadDir = '/upload/';
-      }
+        if($filename === 'aims-watermark'){
+            //unset other file sizes for resizing
+            $this->subfolder = null;
+            $this->filesizes = null;
+            $this->overwrite = true;
+            $uploadDir = '/upload/';
+        }
 
-      if(substr($filename,0,15) === 'aims-photospot-'){
-          //unset other file sizes for resizing
-          $this->subfolder = null;
-          $this->filesizes = null;
-          $this->overwrite = true;
-          $uploadDir = '/upload/';
-      }
+        if(substr($filename,0,15) === 'aims-photospot-'){
+            //unset other file sizes for resizing
+            $this->subfolder = null;
+            $this->filesizes = null;
+            $this->overwrite = true;
+            $uploadDir = '/upload/';
+        }
 
-    if($this->subfolder){
-        $uploadDir = $_SERVER['DOCUMENT_ROOT'].'/' .  $uploadDir . $this->subfolder . '/';
-        $this->createFolderIfnotExist($uploadDir );
+        if($this->subfolder){
+            $uploadDir = $_SERVER['DOCUMENT_ROOT'].'/' .  $uploadDir . $this->subfolder . '/';
+            $this->createFolderIfnotExist($uploadDir );
+        }
+
+        $this->filename = $uploadDir . $filename . $ex;
+        if(file_exists($this->filename) && !$this->overwrite){
+            $datetime = date('ydmhi');
+            $this->filename = $uploadDir . $filename . $datetime . $ex;
+        }
+
+
+        $find = 'data:image/';
+        $posStart = strpos($img,$find) + strlen($find);
+        $posEnd = strpos($img,';',$posStart);
+        $ex = substr($img,$posStart,($posEnd - $posStart));
+        $img = str_replace('data:image/' . $ex . ';base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+
+        //images file
+        $data = base64_decode($img);
+
+        $folder = pathinfo( $this->filename);
+        $this->createFolderIfnotExist($folder['dirname']);
+
+        // upload location and create a jepg
+        $success = file_put_contents( $this->filename, $data);
+
+        if(!$success) {
+            echo "ERORR: Unable to save the file.";
+            print_r($success);
+            exit;
+        }
+
+        list($width, $height) = getimagesize( $this->filename);
+        $this->success[] = [$this->filename,$height, $width];
+
+        if($this->filesizes){
+
+            $this->resizeImage($this->filename,$this->filesizes);
+        }
     }
 
-    $this->filename = $uploadDir . $filename . $ex;
-    if(file_exists($this->filename) && !$this->overwrite){
-        $datetime = date('ydmhi');
-        $this->filename = $uploadDir . $filename . $datetime . $ex;
+    function createFolderIfnotExist($folder){
+
+        $strSub = substr($folder,0,strlen($_SERVER['DOCUMENT_ROOT']));
+
+        if($strSub !== $_SERVER['DOCUMENT_ROOT']) {
+            $folder = $_SERVER['DOCUMENT_ROOT'] . '/' . $folder;
+        }
+
+        if(substr($folder,-1) === '/'){
+            $folder = substr($folder,0,-1);
+        }
+        if(!is_dir($folder)){
+            if (!mkdir( $folder, 0777, true)) {
+                die('ERROR Failed to create folders...');
+            }
+        }
     }
 
 
-    $find = 'data:image/';
-    $posStart = strpos($img,$find) + strlen($find);
-    $posEnd = strpos($img,';',$posStart);
-    $ex = substr($img,$posStart,($posEnd - $posStart));
-    $img = str_replace('data:image/' . $ex . ';base64,', '', $img);
-    $img = str_replace(' ', '+', $img);
 
-    //images file
-    $data = base64_decode($img);
 
-    $folder = pathinfo( $this->filename);
-    $this->createFolderIfnotExist($folder['dirname']);
+    function resizeImage($filename, $filesizes) {
 
-    // upload location and create a jepg
-    $success = file_put_contents( $this->filename, $data);
+        // use Imagick for better qaullery
+        /// $imagick = new \Imagick(realpath($imagePath));
+        /// https://stackoverflow.com/questions/34687115/image-color-ruined-while-resizing-it-using-imagecopyresampled;
 
-    if(!$success) {
-        echo "ERORR: Unable to save the file.";
-        print_r($success);
-        exit;
+
+
+        list($width, $height) = getimagesize( $filename);
+
+        //split filename on the dot.
+        $extractFile = $this->extractFilename($filename , '/');
+        $folder = $extractFile[0] . '/';
+        $fileExt = $this->extractFilename(substr($extractFile[1], 1), '.');
+
+        foreach ($filesizes as $key => $maxWidth) {
+
+            $useUploadFolder = $folder . '_'. $key ;
+            $this->createFolderIfnotExist($useUploadFolder);
+
+            $thumbFilename = $useUploadFolder . '/' . $fileExt[0] . $fileExt[1];
+
+            if(file_exists($thumbFilename) && !$this->overwrite){
+                $thumbFilename = $useUploadFolder . '/' . $fileExt[0] . '-' . date('ymdHis'). $fileExt[1];
+            }
+
+            // calculate new sizes
+            $percent = ($maxWidth / $width);
+            if($percent > 1){
+                $percent = 1;
+            }
+            $newwidth = $width * $percent;
+            $newheight = $height * $percent;
+
+            // Load
+            $thumb = imagecreatetruecolor($newwidth, $newheight);
+
+            if($fileExt[1] === '.png'){
+                $source = imagecreatefrompng( $filename);
+                imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+                imagepng($thumb, $thumbFilename  , 9);
+            }else if($fileExt[1] === '.gif'){
+                $source = imagecreatefromgif( $filename);
+                imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+                imagegif($thumb, $thumbFilename );
+            }else{
+                $source = imagecreatefromjpeg( $filename);
+                imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+                imagejpeg($thumb, $thumbFilename  , 100);
+            }
+
+            imagedestroy($thumb);
+            $this->success[] = [$thumbFilename,$newwidth, $newheight];
+        }
     }
-
-    list($width, $height) = getimagesize( $this->filename);
-    $this->success[] = [$this->filename,$height, $width];
-
-    if($this->filesizes){
-
-       $this->resizeImage($this->filename,$this->filesizes);
-    }
-  }
-
-  function createFolderIfnotExist($folder){
-
-      $strSub = substr($folder,0,strlen($_SERVER['DOCUMENT_ROOT']));
-
-      if($strSub !== $_SERVER['DOCUMENT_ROOT']) {
-          $folder = $_SERVER['DOCUMENT_ROOT'] . '/' . $folder;
-      }
-
-      if(substr($folder,-1) === '/'){
-          $folder = substr($folder,0,-1);
-      }
-      if(!is_dir($folder)){
-          if (!mkdir( $folder, 0777, true)) {
-              die('ERROR Failed to create folders...');
-          }
-      }
-  }
-
-
-
-
-  function resizeImage($filename, $filesizes) {
-
-      // use Imagick for better qaullery
-      /// $imagick = new \Imagick(realpath($imagePath));
-      /// https://stackoverflow.com/questions/34687115/image-color-ruined-while-resizing-it-using-imagecopyresampled;
-
-
-
-      list($width, $height) = getimagesize( $filename);
-
-      //split filename on the dot.
-      $extractFile = $this->extractFilename($filename , '/');
-      $folder = $extractFile[0] . '/';
-      $fileExt = $this->extractFilename(substr($extractFile[1], 1), '.');
-
-      foreach ($filesizes as $key => $maxWidth) {
-
-          $useUploadFolder = $folder . '_'. $key ;
-          $this->createFolderIfnotExist($useUploadFolder);
-
-          $thumbFilename = $useUploadFolder . '/' . $fileExt[0] . $fileExt[1];
-
-          if(file_exists($thumbFilename) && !$this->overwrite){
-              $thumbFilename = $useUploadFolder . '/' . $fileExt[0] . '-' . date('ymdHis'). $fileExt[1];
-          }
-
-          // calculate new sizes
-          $percent = ($maxWidth / $width);
-          if($percent > 1){
-              $percent = 1;
-          }
-          $newwidth = $width * $percent;
-          $newheight = $height * $percent;
-
-          // Load
-          $thumb = imagecreatetruecolor($newwidth, $newheight);
-
-          if($fileExt[1] === '.png'){
-              $source = imagecreatefrompng( $filename);
-              imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-              imagepng($thumb, $thumbFilename  , 9);
-          }else if($fileExt[1] === '.gif'){
-              $source = imagecreatefromgif( $filename);
-              imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-              imagegif($thumb, $thumbFilename );
-          }else{
-              $source = imagecreatefromjpeg( $filename);
-              imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-              imagejpeg($thumb, $thumbFilename  , 100);
-          }
-
-          imagedestroy($thumb);
-          $this->success[] = [$thumbFilename,$newwidth, $newheight];
-      }
-  }
 
 
     function cropImageFromFilename($image)
@@ -239,7 +239,7 @@ class aimsUpload {
         $src_h = ( $dst_h); // Crop end Y position in original image
 
 
-       // print_r($dst_w . "-" .  $resizeTo_w . "x" . $resizeTo_h);//exit;
+        // print_r($dst_w . "-" .  $resizeTo_w . "x" . $resizeTo_h);//exit;
 
         $destination =  $file[0] . '-' . $resizeTo_w.  'x'. $resizeTo_h . $file[1];
 
@@ -325,14 +325,16 @@ class aimsUpload {
     }
 
 
-  function getSuccess(){
-      return $this->success;
-  }
+    function getSuccess(){
+        return $this->success;
+    }
 }
 
 $upload = new aimsUpload('upload/original/', ['thumb'=>200]);
 
-$image = json_decode(file_get_contents('php://input'), true);
+$image = $requestData;
+unset($image['basketCode']);
+
 
 
 if($image['action'] === 'base64') {
@@ -355,8 +357,9 @@ if($image['action'] === 'crop') {
 
     if(file_exists($_SERVER['DOCUMENT_ROOT'] .$filename )) {
         $body['url'] = $filename;
+        $this->setPostBasketCode(false);
         $data = $this->post('process/update/' . $image['id'], $body, null);
-        print_r($data);
+        echo json_encode($done);
     }else{
         echo "ERROR er is iets mis gegaan file bestaat niet";
     }
