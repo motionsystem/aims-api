@@ -18,8 +18,5 @@
         "psr-4": {
             "Aims\\": "aims/"
         }
-    },
-    "require": {
-        "twig/twig": "^3.0"
     }
 }
