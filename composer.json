@@ -20,7 +20,6 @@
         }
     },
     "require": {
-        "allinmotion/aims": "dev-main"
-
+        "twig/twig": "^2.0"
     }
 }
