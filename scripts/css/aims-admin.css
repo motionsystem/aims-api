@@ -1,0 +1,142 @@
+@import "/node_modules/croppr/dist/croppr.min.css"; /* Using a string */
+
+#imgLibrary{
+    position:fixed ;
+    top:3%;
+    right:3%;
+    width:94%;
+    height: 94%;
+    background-color: #3F3F3F;
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+#imgLibrary #originalSrc{
+    max-height: 400px;
+    max-width: 100%;
+}
+
+#imgLibrary .header{
+    width: 100%;
+    font-size: 23px;
+    background-color:#2eaae1;
+    color:#3F3F3F;
+    text-align: center;
+    font-weight: bold;
+
+}
+#imgLibrary .container {
+    padding: 25px;
+}
+
+#imgLibrary .folder .item{
+    width: 100%;
+    font-size: 20px;
+    background-color:#FFFFFF;
+    color:#3F3F3F;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: solid 1px #3F3F3F;
+    padding: 5px 10px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+#imgLibrary .folder .item.selected{
+    background-color:#F49401;
+}
+
+#imgLibrary .folder .item.newfolder{
+    background-color:#3F3F3F;
+    color:#FFFFFF;
+    font-weight: normal;
+}
+
+#selectImage{ display: none}
+originalImgContainer{
+    display: block;
+}
+
+
+#imgLibrary .upload{
+    float: right;
+    text-align: right;
+    width: 100%;
+}
+#imgLibrary .upload input[type="file"] {
+    display: none;
+}
+#imgLibrary .upload .custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+#uploadResult input{
+
+    background-color: #d51254;
+}
+
+#imgLibrary .library{
+    padding: 15px;
+    overflow: hidden;
+}
+
+#imgLibrary .library .item{
+    margin:5px;
+    position: relative;
+    padding: 0px;
+    border: solid 5px #3F3F3F;
+    text-align: center;
+    border-radius: 10px 0;
+    float: left;
+    width: 200px;
+    height: 150px;
+    overflow: hidden;
+}
+
+#imgLibrary .library .item.selected{
+    border: solid 5px #F49401;
+}
+
+#imgLibrary .library .item .title{
+    background-color: rgba(46, 170, 225, 0.5);
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+}
+
+#imgLibrary .library .item.selected .title{
+    background-color: rgba(244, 148, 1, 0.5) !important;
+}
+
+#imgLibrary .library .item  img{
+    max-width:  100%;
+    min-width:  100%;
+    max-height:none;
+}
+
+#imgLibrary #onImageSelected{
+    display:none;
+}
+
+#imgLibrary .library .item .onSelected{
+    display:none;
+    position: absolute;
+}
+#imgLibrary .library .item.selected .onSelected{
+    display:block !important;
+}
+
+#imgLibrary #cropImage{
+    display:none;
+}
+
+
+#imgLibrary .libraryResultFolder{
+    display: none;
+}
+#imgLibrary .libraryResultFolder.selected{
+    display: block !important;
+}
