@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "allinmotion/aims": "dev-main",
+        "allinmotion/aims": "dev-main"
 
     }
 }
